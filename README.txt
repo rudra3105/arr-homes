@@ -49,20 +49,29 @@ plans) to also redirect old-style ".html" links to the clean version.
 
 FORM SETUP
 ----------
-The contact form posts to /email-templates/contact-form.php, which is the
-PHP mailer that ships with your Crafto template. It's pre-configured to send
-enquiries to hello@arrhomes.com.au using PHP's built-in mail() function.
+The contact form submits via Web3Forms (https://web3forms.com), a free
+form-backend service — no PHP, no server needed, works on any static host
+including Netlify and Vercel. It's already configured and working out of
+the box:
 
-This ONLY works if your hosting supports PHP (most shared hosting does;
-Netlify and Vercel's free static hosting do NOT run PHP). If you're hosting
-on Netlify or Vercel, you have two options:
-  1. Switch the form to Netlify Forms (add data-netlify="true" to the <form>
-     tag in contact/index.html), or
-  2. Use a service like Formspree and point the form's "action" at their
-     endpoint instead.
-For higher deliverability than PHP mail(), open email-templates/contact-form.php
-and fill in the SMTP block (search for YOUR_SMTP_HOST) with your email
-provider's SMTP details.
+  - Access key: 2001bba5-9575-46ec-b549-4ac73f8d9a4d (embedded in the form
+    as a hidden field in contact/index.html)
+  - Submissions are emailed to whatever address is registered to that key
+    on web3forms.com (log in there to view/change the destination email,
+    see submission history, or generate a new key)
+  - A honeypot field ("botcheck") is included for basic spam protection
+  - The form submits via JavaScript (fetch) with a small inline script at
+    the bottom of contact/index.html; it shows a success or error message
+    in place without reloading the page
+
+To change which email address receives enquiries, log into
+https://web3forms.com with the email the key was created under, or create
+a brand new access key there and swap the value in the form's hidden
+"access_key" input.
+
+The old email-templates/ folder (PHP mailer) is no longer used and can be
+deleted if you like — it's kept only in case you switch hosting later and
+want a PHP-based fallback instead.
 
 GOOGLE MAP ON THE CONTACT PAGE
 --------------------------------
